@@ -1,5 +1,6 @@
-streamlit
-pandas
-numpy
-scikit-surprise
+streamlit==1.51.0
+pandas==2.3.3
+numpy==2.3.5
+scikit-surprise==1.1.4
+
 
