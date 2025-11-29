@@ -2,24 +2,32 @@ import streamlit as st
 import pandas as pd
 import numpy as np
 import pickle
+from pathlib import Path
 
 # =========================
 # 1) Load model & data
 # =========================
 @st.cache_data
 def load_data():
-    ratings = pd.read_csv(r"C:\Users\HP\Desktop\My_proj\Recommend system project\ml-latest-small\ratings.csv")
-    movies  = pd.read_csv(r"C:\Users\HP\Desktop\My_proj\Recommend system project\ml-latest-small\movies.csv")
+    base_dir = Path(__file__).parent  # folder where APP.py lives
+    ratings_path = base_dir / "ratings.csv"
+    movies_path  = base_dir / "movies.csv"
+    
+    ratings = pd.read_csv(ratings_path)
+    movies  = pd.read_csv(movies_path)
     return ratings, movies
 
 @st.cache_resource
 def load_model():
-    with open("model.pkl", "rb") as f:
+    base_dir = Path(__file__).parent
+    model_path = base_dir / "model.pkl"
+    with open(model_path, "rb") as f:
         algo = pickle.load(f)
     return algo
 
 ratings, movies = load_data()
 algo = load_model()
+
 
 # =========================
 # 2) Helper: recommendation function
@@ -80,3 +88,4 @@ if st.button("Show recommendations"):
             ),
             use_container_width=True
         )
+
